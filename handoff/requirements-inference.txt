@@ -1,0 +1,11 @@
+# Torch CPU is installed separately; OpenVINO runs the actual model on Intel GPU.
+openvino==2026.4.0
+optimum-intel==2.2.0
+optimum==2.3.0
+transformers==4.57.6
+tokenizers==0.22.2
+numpy==2.2.6
+soundfile==0.13.1
+scipy==1.15.3
+safetensors==0.6.2
+psutil==7.2.2

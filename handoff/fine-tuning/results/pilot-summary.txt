@@ -1,0 +1,33 @@
+TRELIS LOCAL LORA PILOT — 2026-10-07
+
+Completed 20 optimizer steps on the local Intel Arc GPU; adapter saved separately.
+74 public training clips, 21 public validation clips, 12 human-reviewed meeting test clips.
+No private test reference was used for training or checkpoint selection.
+
+PAIRED TEST RESULTS — same PyTorch XPU runtime, BF16, fixed greedy decoding
+Original Trelis: 21.44% WER (122/569 word errors).
+Trelis + LoRA:  21.44% WER (122/569 word errors).
+Adapter WER is unchanged; signed change: +0.00 percentage points.
+Clip outcomes: 2 improved, 9 unchanged, 1 worsened.
+Public validation token loss: 0.270319 baseline, 0.263607 adapter.
+Validation loss is teacher-forced prediction loss, not transcription WER.
+
+MEETING GROUPS
+meeting-1: 35/161 -> 34/161 word errors
+meeting-2: 51/163 -> 50/163 word errors
+meeting-3: 12/143 -> 12/143 word errors
+meeting-4: 24/102 -> 26/102 word errors
+
+LIMITATIONS
+12 clips from four meetings; four minutes total
+Public tutorial training/validation labels are publisher-provided, not manually verified
+References were manually corrected from baseline drafts
+Source groups are not independently verified speaker identities
+WER includes script/spelling differences; no transliteration
+
+This small exploratory experiment cannot establish a general accuracy gain.
+The installed OpenVINO baseline (21.09%) is a separate runtime; judge LoRA using the paired results above.
+No app model replacement, cloud compute, or recording uploads were performed.
+
+
+Private references and per-clip predictions are deliberately not distributed.

@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "model_id": "trelis",
+  "repo_id": "Trelis/whisper-hinglish-preview",
+  "source_revision": "eab1188fd2d0e91f2584229b32b3bfe1901c896c",
+  "license": "apache-2.0",
+  "files": [
+    {
+      "path": "README.md",
+      "size": 5123,
+      "sha256": "5f5e57453978f2fbce3af0cb6cccc8db8601e0444094b9efc57d1b5767c56cf9"
+    },
+    {
+      "path": "added_tokens.json",
+      "size": 34674,
+      "sha256": "0c4c90cd86a246f0646c82f63e5a53761d29673ead2486b3f4e4bd81e632c526"
+    },
+    {
+      "path": "config.json",
+      "size": 1278,
+      "sha256": "b2238baac80847d564ccee28305c3dd5cda64e60cfe92f60030049c5aa0f70a6"
+    },
+    {
+      "path": "generation_config.json",
+      "size": 3801,
+      "sha256": "71c4692f1148a9fa0e923ee91100223930a6b4bb54a2ee221c10228de0e9dab0"
+    },
+    {
+      "path": "merges.txt",
+      "size": 493869,
+      "sha256": "2df2990a395e35e8dfbc7511e08c12d56018d8d04691e0133e5d63b21e154dc6"
+    },
+    {
+      "path": "model-00001-of-00002.safetensors",
+      "size": 4993454000,
+      "sha256": "084aa9aadbf48503a73cee2d5a2960bb272428e33fc96fcb7cc09cad53fcdfe4"
+    },
+    {
+      "path": "model-00002-of-00002.safetensors",
+      "size": 1180663192,
+      "sha256": "c0d42c5d57befad7b259b42a9061bf8c157c8a65b2c444a68cfddf15bd4ba5c2"
+    },
+    {
+      "path": "model.safetensors.index.json",
+      "size": 111598,
+      "sha256": "4bf26be7bda24829131bffc971f4e29f82a6201ad42906bfba065c5017885c2a"
+    },
+    {
+      "path": "normalizer.json",
+      "size": 52666,
+      "sha256": "bf1c507dc8724ca9cf9903640dacfb69dae2f00edee4f21ceba106a7392f26dd"
+    },
+    {
+      "path": "preprocessor_config.json",
+      "size": 357,
+      "sha256": "654cf18d3e163b948ceaf9766da56ce0b52de265d58673cf61c9376f126bd499"
+    },
+    {
+      "path": "special_tokens_map.json",
+      "size": 2207,
+      "sha256": "9e80f311d626e349ac1021772413ed9c1145f631cbce61b625eca74bb519a2c0"
+    },
+    {
+      "path": "tokenizer_config.json",
+      "size": 283073,
+      "sha256": "131cbad92c84998cbacceedf58901e872931bca5af7466df5e0904af28b5a383"
+    },
+    {
+      "path": "vocab.json",
+      "size": 1036558,
+      "sha256": "e2aa043ef015641d363d8288e7c241c85e36a5c761fb303598e0710233344387"
+    }
+  ],
+  "smoke_audio_is_human_verified_reference": false
+}

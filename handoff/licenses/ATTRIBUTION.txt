@@ -1,0 +1,40 @@
+MODEL
+Trelis/whisper-hinglish-preview, revision eab1188fd2d0e91f2584229b32b3bfe1901c896c.
+Publisher model card declares Apache-2.0. The original model card and an unchanged
+Apache License2.0 text are supplied. Preserve attribution when sharing derivatives.
+https://huggingface.co/Trelis/whisper-hinglish-preview
+The model card attributes ARTPARK-IISc/whisper-large-v3-vaani-hindi and
+openai/whisper-large-v3. Consult the retained model card for the publisher's
+claims, source attribution and limitations; its benchmark claims are not ours.
+
+EXPERIMENTAL ADAPTER
+Derived locally from that exact original Trelis model on7October2026.
+Decoder-only rank8 LoRA,20steps. No net improvement on the small reviewed test.
+It is unmerged and not used by the default inference runner.
+
+PUBLIC PILOT DATA AND EXAMPLE
+Dataset compilation by Ayushi Agarwal: agarwalayushi/hinglish.
+Revision6aa2a2e6e07e63f84a5b2e388605372b06bbbb97.
+https://huggingface.co/datasets/agarwalayushi/hinglish
+https://github.com/ayushi-agarwall/hinglish-audio-dataset
+Declared license: Creative Commons Attribution4.0 International.
+License: https://creativecommons.org/licenses/by/4.0/
+Upstream reference: https://huggingface.co/datasets/ai4bharat/Spoken-Tutorial
+Modifications: selected95 clips, decoded/resampled to mono16kHz PCM WAV, assigned
+source-group splits. Publisher transcript labels retained; not human-certified.
+Per-row IDs, source links, revision, hashes and source groups are retained in
+fine-tuning/data/public-manifest.jsonl. Original per-row provenance and speaker
+identity were not independently certified. Do not imply publisher endorsement.
+
+HANDOFF CODE
+The newly authored packaging and portable runner code in this handoff is provided
+under Apache License2.0. Third-party dependencies retain their own licenses and
+are installed separately. No Python runtime, dependency wheels, FFmpeg binaries,
+drivers, desktop GUI, private meetings, or credentials are redistributed here.
+
+PROVENANCE MODIFICATIONS
+Only machine-specific configuration paths were made portable. Original base
+model weights, OpenVINO model binaries and LoRA weight tensors are unchanged.
+The OpenVINO export manifest source path is relative, and its provenance hash
+was updated accordingly; its original manifest hash is retained alongside it.
+SHA256SUMS.json covers every distributed file, excluding the checksum file itself.

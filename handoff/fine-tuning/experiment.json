@@ -1,0 +1,21 @@
+{
+  "model_id": "Trelis/whisper-hinglish-preview",
+  "model_revision": "eab1188fd2d0e91f2584229b32b3bfe1901c896c",
+  "model_path": "../models/trelis",
+  "dataset_id": "agarwalayushi/hinglish",
+  "execution": "local_only",
+  "device": "xpu",
+  "precision": "bfloat16",
+  "lora_rank": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "target_modules": "model\\.decoder\\.layers\\.\\d+\\.(self_attn|encoder_attn)\\.(q_proj|v_proj)",
+  "learning_rate": 5e-05,
+  "seed": 20261007,
+  "max_audio_seconds": 30,
+  "minimum_free_ram_gib": 10,
+  "pilot_max_optimizer_steps": 100,
+  "gradient_accumulation": 4,
+  "evaluation_policy": "meeting-level held-out, human-reviewed references; same decoding and normalization for baseline and adapter",
+  "deployment_policy": "no automatic replacement of the installed model"
+}

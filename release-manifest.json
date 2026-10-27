@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "repository": "Aditya2k4/trelis-stt-portable",
+  "tag": "v1.0.0",
+  "archive_name": "Trelis-STT-FULL.zip",
+  "archive_bytes": 9308913038,
+  "archive_sha256": "165ae0f825575fe3b2225b07b402f2ba5c8372e1af621f93693e8a93278cf00a",
+  "extracted_folder": "Trelis-STT",
+  "parts": [
+    {
+      "name": "Trelis-STT-FULL.zip.part001",
+      "bytes": 1610612736,
+      "sha256": "331205787fa9ab12cce19084d3f6e78158b35d6765329a537b21415dfeb8e5f1"
+    },
+    {
+      "name": "Trelis-STT-FULL.zip.part002",
+      "bytes": 1610612736,
+      "sha256": "1385f05b731c7bb3556dbe5dff37c85bdb7869371af88c5c07ee934995f2bcd0"
+    },
+    {
+      "name": "Trelis-STT-FULL.zip.part003",
+      "bytes": 1610612736,
+      "sha256": "638a0688a6376e7f1c97139b969ef117b10c28d59b57f1b26951c186113dea50"
+    },
+    {
+      "name": "Trelis-STT-FULL.zip.part004",
+      "bytes": 1610612736,
+      "sha256": "7faa039d5c6bbb9f1c1056e7f80ce47b540c669c24a131af3959197e4b8a9413"
+    },
+    {
+      "name": "Trelis-STT-FULL.zip.part005",
+      "bytes": 1610612736,
+      "sha256": "4a84ca0d89f1dcdb1e2955872637e97fdf697d7e959bb0bfa9be668f25a327fb"
+    },
+    {
+      "name": "Trelis-STT-FULL.zip.part006",
+      "bytes": 1255849358,
+      "sha256": "bf12f54634721fc23208fb5adc37ebd00401c8317ad2ca9142ae8169c16e6eeb"
+    }
+  ]
+}

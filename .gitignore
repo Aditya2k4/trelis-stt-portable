@@ -1,0 +1,4 @@
+downloads/
+package/
+__pycache__/
+*.pyc

@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-27",
+  "platform": "Source Windows Intel Arc 140V laptop",
+  "python_syntax": "passed",
+  "powershell_syntax": "passed using PowerShell parser",
+  "inference_environment": "existing pinned OpenVINO environment, not a fresh installation",
+  "library_imports": "torch, openvino, transformers and optimum-intel imported successfully in separate probe",
+  "private_audio_included": false,
+  "private_reference_text_included": false,
+  "colleague_deployment_verified": false,
+  "required_on_colleague_device": "Install dependencies, inspect GPU, verify checksums and run included public smoke test.",
+  "preparation_tests": {
+    "passed": true,
+    "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.208s\n\nOK"
+  },
+  "privacy_path_scan": "passed",
+  "portable_inference_test": {
+    "passed": true,
+    "returncode": 0,
+    "unique_inputs": 2,
+    "duplicate_skipped": 1,
+    "batch_size": 2,
+    "full_window_coverage_checked": true,
+    "model_paths": "defaults inside the extracted package",
+    "audio_source": "public dataset only"
+  },
+  "validation_seconds": 159.07
+}

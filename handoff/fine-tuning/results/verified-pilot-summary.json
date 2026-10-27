@@ -1,0 +1,59 @@
+{
+  "verified": true,
+  "manifest_sha256": "560480b7f779f49bce12b0aaf380c280db3b043822e548e495b67e4f95af18fa",
+  "adapter_sha256": "940daec3ae7db9ace94b5e9654c51a8e5bf418cb146d200e6bd50f063503afea",
+  "optimizer_steps": 20,
+  "optimizer_step_seconds_total": 143.34500000005937,
+  "timing_excludes": "model load, audio encoding, evaluation",
+  "summary": {
+    "baseline": {
+      "word_errors": 122,
+      "reference_words": 569,
+      "wer": 0.21441124780316345,
+      "validation_token_loss": 0.2703191929517134
+    },
+    "adapter": {
+      "word_errors": 122,
+      "reference_words": 569,
+      "wer": 0.21441124780316345,
+      "validation_token_loss": 0.2636074806918484
+    },
+    "relative_error_reduction": 0.0
+  },
+  "clip_outcomes": {
+    "improved": 2,
+    "unchanged": 9,
+    "worsened": 1
+  },
+  "groups": {
+    "meeting-1": {
+      "reference_words": 161,
+      "baseline_errors": 35,
+      "adapter_errors": 34
+    },
+    "meeting-2": {
+      "reference_words": 163,
+      "baseline_errors": 51,
+      "adapter_errors": 50
+    },
+    "meeting-3": {
+      "reference_words": 143,
+      "baseline_errors": 12,
+      "adapter_errors": 12
+    },
+    "meeting-4": {
+      "reference_words": 102,
+      "baseline_errors": 24,
+      "adapter_errors": 26
+    }
+  },
+  "general_accuracy_gain_established": false,
+  "limitations": [
+    "12 clips from four meetings; four minutes total",
+    "Public tutorial training/validation labels are publisher-provided, not manually verified",
+    "References were manually corrected from baseline drafts",
+    "Source groups are not independently verified speaker identities",
+    "WER includes script/spelling differences; no transliteration"
+  ],
+  "installed_model_replaced": false
+}

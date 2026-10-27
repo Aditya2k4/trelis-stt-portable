@@ -1,0 +1,105 @@
+TRELIS STT — COLLEAGUE HANDOFF
+Prepared 27 October 2026
+
+This package is for another Windows 11 laptop like the original: Intel Core
+Ultra 7 268V / Intel Arc 140V integrated graphics / 32 GB RAM. It contains the
+speech-to-text engine and a command-line runner, not the old desktop GUI.
+
+WHAT TO SHARE
+Trelis-STT-FULL.zip: complete original model, Intel inference export, runner,
+instructions, public pilot data, and the separate experimental LoRA adapter.
+Trelis-STT-KIT.zip: small companion with code, instructions, adapter and public
+data, but NO base-model weights. The KIT alone cannot transcribe. It is useful
+to attach to ChatGPT; transfer the FULL ZIP to the colleague separately.
+
+Read CHATGPT HANDOFF.txt and paste its prompt into a local ChatGPT/Codex session
+that can access the extracted folder. A web-only chat cannot directly install
+software on the laptop; it can guide the colleague through these same commands.
+
+QUICK SETUP — run PowerShell from the extracted Trelis-STT folder
+1. Have Python 3.12 (64-bit, with the Windows py launcher) and FFmpeg installed.
+   Python: https://www.python.org/downloads/windows/
+   FFmpeg: https://ffmpeg.org/download.html
+   The Intel graphics driver must expose the Intel GPU to OpenVINO.
+   Python, FFmpeg, drivers and dependency wheels are NOT bundled.
+
+2. Verify the FULL package:
+   py -3.12 verify_package.py
+   Every hash should pass. The KIT intentionally reports missing model files.
+
+3. Create the inference environment:
+   powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-windows.ps1
+   This installs dependencies from official package indexes. Internet is needed
+   for this initial installation. It does not install a model from the internet,
+   change system PATH, install a driver, or modify the system execution policy.
+   The full model is already included; inference is offline.
+
+4. Inspect the laptop:
+   .\.venv-asr\Scripts\python.exe diagnose.py
+   Confirm the expected Intel GPU is listed, FFmpeg resolves, and both model
+   folders are present. If the GPU is absent, resolve the Intel driver/runtime
+   issue first; this runner deliberately does not silently switch to CPU.
+
+5. Run the included short public example:
+   .\.venv-asr\Scripts\python.exe transcribe.py examples\public-smoke.wav --language hi --batch-size 1 --output smoke-output
+   A TXT and JSON report should appear in smoke-output, with complete=true.
+   Its publisher reference is examples/public-smoke-reference.json; this is
+   a functionality test, not an accuracy benchmark or a human-reviewed clip.
+
+6. Transcribe a real recording, initially with batch size 1:
+   .\.venv-asr\Scripts\python.exe transcribe.py "D:\Recordings\meeting.m4a" --language en --output transcripts
+   For primarily Hindi/Hinglish, use --language hi instead.
+   The tested mixed-code prefix is enabled by default; --no-mixed-code is an
+   optional publisher-supported pure-language mode, not our original baseline.
+   If FFmpeg is not on PATH, add --ffmpeg "D:\Tools\ffmpeg.exe".
+
+7. After the first real file succeeds, increase batching gradually: 2, 4, then 8.
+   Example for multiple files:
+   .\.venv-asr\Scripts\python.exe transcribe.py "D:\Recordings\one.m4a" "D:\Recordings\two.m4a" --language en --batch-size 4 --output transcripts
+   Eight was useful on the original 32 GB Intel laptop, but is not guaranteed
+   to be optimal on every machine or under memory pressure. Close unused apps.
+   Start with roughly 10 GB available RAM and ample disk space. Keep at least
+   25–30 GB free if installing both inference and training environments.
+
+OPERATING NOTES
+- The runner processes the entire input, using approximately 20-second windows
+  with boundaries chosen near quiet points. Timestamps are audio-window ranges,
+  not measured word timings. It does not provide speaker diarization.
+- It preserves the source audio. TXT and JSON outputs save after every section.
+  A stopped run can resume with the same input, output folder and language
+  settings. Different settings require a different output folder.
+- Exact source and normalized-audio duplicates are skipped within each command.
+  A file that is genuinely incomplete may fail to decode. Redownload it or
+  prove that a complete counterpart contains it; do not assume '(1)' is a copy.
+- Multiple sections of one long recording can share a batch, avoiding a slow
+  final file. Obvious repeated-output loops are retried in shorter sections.
+  Unresolved loops are marked unclear, rather than presented as spoken words.
+- Automatic transcripts still contain errors, especially names and noisy speech.
+- The original base model is the default. The LoRA adapter is NOT loaded by
+  this transcription runner and has NOT been merged into either model folder.
+
+FINE-TUNING
+Read fine-tuning/EXPERIMENT GUIDE.txt. We successfully completed a small local
+LoRA pilot, but it produced NO overall improvement on the reviewed meeting test:
+original 122/569 errors (21.44% WER), adapter 122/569 errors (21.44% WER).
+Do not describe this package as an accuracy-improved or successfully tuned model.
+The original user audio, corrected private references, transcripts, app database,
+credentials, virtual environments and machine-specific GPU caches are excluded.
+
+SUPPORTED / TESTED BOUNDARY
+The previous installation and pilot ran on the original Intel Windows laptop.
+This portable runner is checked locally; see validation/LOCAL CHECKS.json.
+Deployment on the colleague's laptop still requires the smoke test above.
+NVIDIA, AMD, macOS and ARM deployment are not validated by this handoff.
+
+MODEL / SOURCES
+Trelis/whisper-hinglish-preview
+Pinned revision: eab1188fd2d0e91f2584229b32b3bfe1901c896c
+https://huggingface.co/Trelis/whisper-hinglish-preview
+The original Trelis model card is retained in licenses/Trelis-model-card.md.
+Primary installation references:
+https://pytorch.org/get-started/previous-versions/
+https://docs.pytorch.org/docs/stable/notes/get_start_xpu.html
+https://huggingface.co/docs/optimum-intel/installation
+Our exact tested package versions are pinned in requirements-inference.txt and
+fine-tuning/requirements.txt. Do not blindly upgrade them during first setup.

@@ -1,0 +1,100 @@
+TRELIS LOCAL LORA PILOT — WHAT WAS ACTUALLY DONE
+
+Base model: Trelis/whisper-hinglish-preview
+Revision: eab1188fd2d0e91f2584229b32b3bfe1901c896c
+Training: original Intel Arc 140V Windows laptop, PyTorch 2.8.0+xpu.
+20 optimizer steps, four-example gradient accumulation, fixed seed 20261007.
+Decoder-only LoRA q_proj and v_proj in self-attention and encoder-attention:
+rank 8, alpha 16, dropout 0.05, AdamW learning rate 5e-5.
+2,621,440 trainable parameters; frozen base and encoder, BF16 computation.
+Frozen encoder outputs cached locally; non-reentrant gradient checkpointing.
+The dataset order was fixed/cyclic, not a broad shuffled multi-epoch training run.
+The earlier one-step engineering feasibility adapter was discarded.
+
+DATA
+Public source: https://huggingface.co/datasets/agarwalayushi/hinglish
+GitHub context: https://github.com/ayushi-agarwall/hinglish-audio-dataset
+Dataset revision: 6aa2a2e6e07e63f84a5b2e388605372b06bbbb97
+Sampled 16 rows from each offset 0,500,1000,1500,2000,2500; one duration exclusion.
+Included pilot: 95 public clips /18.14 minutes, 74 training and 21 validation.
+Eight source groups; validation holds out spk_00000012 and spk_00000034.
+Exact duplicates removed and linked source groups kept in one split.
+These are tutorial-style Hindi/English clips, not representative meeting audio.
+Publisher transcripts were NOT manually verified. The explicit
+--publisher-label-pilot flag admits only these documented public labels for
+training/validation. It never waives human review for the test set.
+Source groups are not independently verified speaker identities.
+The compilation declares CC BY 4.0 and points to AI4Bharat Spoken-Tutorial;
+per-row original provenance is not independently certified. Retain attribution.
+
+PRIVATE TEST AND RESULT
+The user corrected 12 clips from four meetings, totaling four minutes and 569
+reference words. They were kept test-only and never used for training.
+They are not included here, nor are their source recordings or predictions.
+The paired baseline and adapter used the SAME PyTorch XPU BF16 process,
+explicit Hindi mixed-code prefix, greedy decoding, and identical normalization.
+Baseline: 122 word errors /569 reference words =21.44% WER.
+Adapter:  122 word errors /569 reference words =21.44% WER.
+Two clips improved, one worsened, nine unchanged. Relative error reduction: 0%.
+Public validation token-weighted teacher-forced loss: 0.270319 ->0.263607.
+That loss decrease did not translate into an overall meeting WER improvement.
+The installed OpenVINO baseline scored21.09% on the same gold references;
+that is a different runtime and is not the correct direct LoRA comparison.
+This tiny pilot establishes feasibility, not a general accuracy improvement.
+
+WHAT IS INCLUDED
+- adapter/: the actual saved adapter weights (unmerged, disabled by default).
+  Only adapter_config.json's base path/revision was made portable. Weight bytes
+  are unchanged; their original SHA256 is in results/verified-pilot-summary.json.
+- data/public-manifest.jsonl +public-audio/: the exact95 public pilot clips.
+- experiment.json: original settings, with a package-relative model path.
+- train_local.py /evaluate_paired.py: the original training/evaluation approach.
+- common.py: original validation/normalization, with portable path resolution
+  and psutil RAM detection replacing the Windows-only memory query.
+- results/: aggregate metrics and training logs; no private text or recordings.
+
+HOW TO REPEAT ON THE SAME TYPE OF INTEL WINDOWS LAPTOP
+Do not install XPU Torch into the OpenVINO inference environment.
+From the package root:
+  powershell -NoProfile -ExecutionPolicy Bypass -File .\setup-windows.ps1 -Training
+  .\.venv-training\Scripts\python.exe -c "import torch; print(torch.__version__); print(torch.xpu.is_available())"
+  .\.venv-training\Scripts\python.exe fine-tuning\test_preparation.py
+
+Supply YOUR OWN separately permissioned, human-reviewed test clips. Use mono
+16kHz16-bit WAV clips of at most30seconds. Keep source meetings/speakers and
+duplicate audio out of training/validation. Save one JSON object per line:
+  id: unique string
+  group_id: stable recording/speaker-group ID
+  audio: relative WAV path, resolved from your JSONL file's folder
+  audio_sha256: SHA256 of that WAV file
+  text: corrected, nonempty transcription
+  split: "test"
+  reviewed: true
+  license_verified: true only if you have permission to use the recording
+Do not mark machine drafts as reviewed or fabricate a reference for silence.
+
+Combine this with the included public pilot data:
+  .\.venv-training\Scripts\python.exe fine-tuning\assemble_manifest.py --test "D:\ReviewedTest\test.jsonl" --output fine-tuning\data\combined-manifest.jsonl
+
+With at least10GiB available RAM after imports, run the fixed pilot once:
+  .\.venv-training\Scripts\python.exe fine-tuning\train_local.py --manifest fine-tuning\data\combined-manifest.jsonl --publisher-label-pilot --steps 20 --output fine-tuning\runs\new-pilot
+
+Evaluate without changing the installed model:
+  .\.venv-training\Scripts\python.exe fine-tuning\evaluate_paired.py --manifest fine-tuning\data\combined-manifest.jsonl --adapter fine-tuning\runs\new-pilot\adapter --output fine-tuning\runs\new-pilot\paired-evaluation.json
+
+Use a fresh output directory; scripts preserve existing results. Inspect any
+incomplete run before retrying. Training is XPU-only in this handed-off pilot;
+it is not a validated CUDA/MPS training implementation. Do not simply change one
+device string and claim portability across accelerators.
+
+EVALUATION / NEXT EXPERIMENT
+WER normalization is NFC +casefold +punctuation/symbol-to-space. It preserves
+Hindi matras/nuktas and does not transliterate. Script/spelling differences count.
+Use validation to decide changes; reserve a fresh, untouched meeting test for
+the final comparison. Repeatedly optimizing on the same12 clips would bias it.
+Public tutorial audio may not match the colleague's meeting domain. Consider
+properly permissioned, corrected, domain-matched training data, while maintaining
+independent validation and test groups. More steps alone do not guarantee gains.
+Keep the original model and compare the adapter in the same runtime first.
+OpenVINO deployment of a new adapter requires a separate deliberate merge/export
+and evaluation workflow; this package does not automatically do that.
